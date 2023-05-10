@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.Application", "2.Applicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3.Infrastructure", "3.Infrastructure\3.Infrastructure.csproj", "{9537BA35-B2DC-468B-A6D4-D313C8DCF26F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FruitStandConsole", "FruitStandConsole\FruitStandConsole.csproj", "{0D35850B-3F72-4BA8-B238-C2AA9341572D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{9537BA35-B2DC-468B-A6D4-D313C8DCF26F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9537BA35-B2DC-468B-A6D4-D313C8DCF26F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9537BA35-B2DC-468B-A6D4-D313C8DCF26F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D35850B-3F72-4BA8-B238-C2AA9341572D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D35850B-3F72-4BA8-B238-C2AA9341572D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D35850B-3F72-4BA8-B238-C2AA9341572D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D35850B-3F72-4BA8-B238-C2AA9341572D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
