@@ -3,6 +3,7 @@ using _1.Domain.Recipies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,10 +11,9 @@ namespace _2.Application
 {
     public class FruitPressResult
     {
-        public List<IFruit> Fruits { get; set; }
-        public IRecipe Recipe { get; set; }
         public int GlassesToServe { get; set; }
-        public int MoneyCange { get; set; }
+        public int MoneyBack { get; set; }
+        public decimal FruitLeft { get; set; }
         public string Message { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3.Infrastructure
+namespace _2.Application
 {
     public interface IFruitPressService
     {

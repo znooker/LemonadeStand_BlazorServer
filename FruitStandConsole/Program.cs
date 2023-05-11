@@ -1,7 +1,6 @@
 ﻿using _1.Domain.Fruits;
 using _1.Domain.Recipies;
 using _2.Application;
-using _3.Infrastructure;
 using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 using System.Security.Cryptography;
@@ -21,29 +20,31 @@ foreach (var juice in juiceMenu)
     Console.WriteLine($"{juice.Name} \t- Price/Glass: {juice.PricePerGlass} \t - Contains:{juice.ConsumptionPerGlass} {juice.AllowedFruit.Name}");
 }
 
-Console.WriteLine(  );
-int moneyPaid = 30;
-int orderedGlassQuantity = 2;
+//Console.WriteLine(  );
+//int moneyPaid = 30;
+//int orderedGlassQuantity = 2;
 
-if (moneyPaid < (juiceMenu[0].PricePerGlass * orderedGlassQuantity))
-{
-    Console.WriteLine("Not enough money!");
-    Console.WriteLine($"Totalcost is: {juiceMenu[0].PricePerGlass * orderedGlassQuantity}");
-}
-else
-{
-    Console.WriteLine($"Here is your order of {orderedGlassQuantity} glasses of {juiceMenu[0].Name}");
-}
+//if (moneyPaid < (juiceMenu[0].PricePerGlass * orderedGlassQuantity))
+//{
+//    Console.WriteLine("Not enough money!");
+//    Console.WriteLine($"Totalcost is: {juiceMenu[0].PricePerGlass * orderedGlassQuantity}");
+//}
+//else
+//{
+//    Console.WriteLine($"Here is your order of {orderedGlassQuantity} glasses of {juiceMenu[0].Name}");
+//}
 
 Console.WriteLine();
 Console.WriteLine("test");
 
-FruitPressResult result = new FruitPressResult();
-PressFruit press = new(result);
+
+PressFruit press = new();
 
 Collection<IFruit> fruits = new Collection<IFruit>() { new Apple(), new Apple()};
 
-press.Produce(press.JuiceMenu[0], fruits, 50, 2);
+press.Produce(press.JuiceMenu[0], fruits, 50, 5);
 
-Console.WriteLine(result.Message);
+Console.WriteLine(press.Result.Message);
+
+Console.ReadLine();
 

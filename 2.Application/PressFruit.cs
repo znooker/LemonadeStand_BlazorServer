@@ -8,16 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3.Infrastructure
+namespace _2.Application
 {
     public class PressFruit : IFruitPressService
     {
-        FruitPressResult _result;
-        public PressFruit(FruitPressResult result)
-        {
-            _result = result;
-        }
-
+        public FruitPressResult Result { get;  } = new FruitPressResult();
 
         //public FruitPressResult Result { get; set; }
        
@@ -34,18 +29,24 @@ namespace _3.Infrastructure
             //Se om receptet och de beställda frukterna överensstämmer.
             if((fruits.All(f => f.GetType() == recipe.AllowedFruit) == false))
             {
-                _result.GlassesToServe = 0;
-                _result.Message = "A valid recipe could not be found for that fruit combination";
+                Result.GlassesToServe = 0;
+                Result.Message = "A valid recipe could not be found for that fruit combination";
+                return Result;
             }
 
             //Se om den betalda summan täcker beställningen
-            //if(moneyPaid > (recipe.PricePerGlass * orderedGlassQuantity)) 
-            //{
-            //    Result.GlassesToServe = 0;
-            //    Result.Message = ""
-            //}
+            if (moneyPaid < (recipe.PricePerGlass * orderedGlassQuantity))
+            {
+                Result.Message = $"Not enough money! \n Totalcost is: {recipe.PricePerGlass * orderedGlassQuantity}";
+                return Result ;
+            }
+                       
             
-            return _result;
+            
+            //Allt ok!
+            Result.Message = orderedGlassQuantity > 1 ? $"Here is your order of {orderedGlassQuantity} glasses of {recipe.Name}" : $"Here is your order of {orderedGlassQuantity} glass of {recipe.Name}";
+            
+            return Result;
         }
     }
 }
