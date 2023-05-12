@@ -9,5 +9,6 @@ namespace _1.Domain.Fruits
     public class Orange : IFruit
     {
         public string Name { get; } = "Orange";
+        public int TotalStore { get; set; }
     }
 }

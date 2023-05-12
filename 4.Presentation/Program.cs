@@ -1,4 +1,7 @@
-using _4.Presentation.Data;
+using _1.Domain.Fruits;
+using _1.Domain.Recipies;
+using _2.Application;
+using _4.Presentation.Pages;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -8,7 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 //Här sker DI
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<IFruitPressService, FruitPressService>();
+builder.Services.AddTransient<IFruit, Fruit>();
+builder.Services.AddSingleton<IJuiceMenu, JuiceMenu>();
 
 var app = builder.Build();
 

@@ -38,13 +38,13 @@ Console.WriteLine();
 Console.WriteLine("test");
 
 
-PressFruit press = new();
+FruitPressService press = new();
 
 Collection<IFruit> fruits = new Collection<IFruit>() { new Apple(), new Apple()};
 
-press.Produce(press.JuiceMenu[0], fruits, 50, 5);
+press.Produce(juiceMenu[0], fruits, 50, 5);
 
-Console.WriteLine(press.Result.Message);
+Console.WriteLine(press.Result.ErrorMessage);
 
 Console.ReadLine();
 

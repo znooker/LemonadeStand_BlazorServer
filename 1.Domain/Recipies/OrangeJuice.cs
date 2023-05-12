@@ -9,7 +9,7 @@ namespace _1.Domain.Recipies
 {
     public class OrangeJuice : IRecipe
     {
-        public string Name { get; } = "Orange Juice";
+        public string Name { get; set; } = "Orange Juice";
 
         public Type AllowedFruit { get; } = typeof(Orange);
 

@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace _1.Domain.Fruits
 {
-    public interface IFruit : IStorage
+    public class Fruit : IFruit
     {
-        string Name { get; }
+
+        public string Name { get; }
+        public int TotalStore { get; set; }
+
     }
 }

@@ -10,41 +10,32 @@ using System.Threading.Tasks;
 
 namespace _2.Application
 {
-    public class PressFruit : IFruitPressService
+    public class FruitPressService : IFruitPressService
     {
         public FruitPressResult Result { get;  } = new FruitPressResult();
-
-        //public FruitPressResult Result { get; set; }
-       
-        //Flytta Menyn någon annanstans.... där den ska presenteras....
-        public List<IRecipe> JuiceMenu { get; } = new List<IRecipe>()
-        {
-            new AppleJuice(),
-            new MelonJuice(),
-            new OrangeJuice()
-        };
-
+      
         public FruitPressResult Produce(IRecipe recipe, Collection<IFruit> fruits, int moneyPaid, int orderedGlassQuantity)
         {
+            Result.Recipe = recipe;
+            Result.GlassesToServe = orderedGlassQuantity;
+            Result.MoneyPaid = moneyPaid;
+            Result.FruitLeft = 0m;
+            Result.ErrorMessage = "";
+
             //Se om receptet och de beställda frukterna överensstämmer.
             if((fruits.All(f => f.GetType() == recipe.AllowedFruit) == false))
             {
-                Result.GlassesToServe = 0;
-                Result.Message = "A valid recipe could not be found for that fruit combination";
+                Result.ErrorMessage = "A valid recipe could not be found for that fruit combination";
                 return Result;
             }
+           
 
             //Se om den betalda summan täcker beställningen
             if (moneyPaid < (recipe.PricePerGlass * orderedGlassQuantity))
             {
-                Result.Message = $"Not enough money! \n Totalcost is: {recipe.PricePerGlass * orderedGlassQuantity}";
+                Result.ErrorMessage = $"Not enough money! \n Totalcost is: {recipe.PricePerGlass * orderedGlassQuantity}";
                 return Result ;
             }
-                       
-            
-            
-            //Allt ok!
-            Result.Message = orderedGlassQuantity > 1 ? $"Here is your order of {orderedGlassQuantity} glasses of {recipe.Name}" : $"Here is your order of {orderedGlassQuantity} glass of {recipe.Name}";
             
             return Result;
         }

@@ -8,7 +8,7 @@ namespace _1.Domain.Recipies
 {
     public interface IRecipe
     {
-        string Name { get; }
+        string Name { get; set; }
         Type AllowedFruit { get; }
         decimal ConsumptionPerGlass { get; }
         int PricePerGlass { get; }

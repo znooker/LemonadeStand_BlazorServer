@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering;
+@using _1.Domain.Fruits;
+@using _1.Domain.Recipies;
+@using _2.Application
+@inject IFruitPressService Servicetest
+
+
+
+<div>
+    <label for="recipeName">Recipe</label>
+    <InputSelect @bind-Value="SelectedRecipeName" class="form-control">
+        <option disabled selected></option>
+        @foreach (var recipe in Recipes)
+        {
+            <option value="@recipe.Name">@recipe.Name</option>
+        }
+    </InputSelect>
+</div>
+<div>
+    <label for="orderQuantity">Order Quantity</label>
+    <InputNumber @bind-Value="GlassesToServe" class="form-control" placeholder="bla">  </InputNumber>
+</div>
+<div>
+    <label for="moneyPaid">Money Paid</label>
+    <InputNumber @bind-Value="MoneyPaid" class="form-control">  </InputNumber>
+</div>
+<div>
+    <label for="applesAdded">Apples Added</label>
+    <InputNumber @bind-Value="Apple.TotalStore" class="form-control">  </InputNumber>
+</div>
+<div>
+    <label for="melonsAdded">Melons Added</label>
+    <InputNumber @bind-Value="Orange.TotalStore" class="form-control">  </InputNumber>
+</div>
+<div>
+    <label for="orangesAdded">Oranges Added</label>
+    <InputNumber @bind-Value="Melon.TotalStore" class="form-control">  </InputNumber>
+</div>
+<div>
+    <button class="btn btn-primary" @onclick="ProcessOrder">Go ahead... Make my juice....</button>
+</div>
+
+
+@code {
+
+    [Inject] IJuiceMenu _juiceMenu { get; set; }
+
+    public string SelectedRecipeName { get; set; }
+    public int GlassesToServe { get; set; }
+    public int MoneyPaid { get; set; }
+    [Inject] public IFruit Apple { get; set; }
+    [Inject] public IFruit Orange { get; set; }
+    [Inject] public IFruit Melon { get; set; }
+    public int NumberOfMelons { get; set; }
+    public int NumberOfOranges { get; set; }
+
+    public List<IRecipe> Recipes { get; set; }
+
+    
+
+    public void ProcessOrder()
+    {
+        var Recipe = Recipes.FirstOrDefault(r => r.Name == SelectedRecipeName);
+
+        //if (Recipe.AllowedFruit == typeof(Apple) &&  (GlassesToServe * Recipe.ConsumptionPerGlass) < NumberOfApples)
+        //{
+        //    //Recipe.ConsumptionPerGlass
+        //}
+
+        //if (Recipe.AllowedFruit == typeof(Apple) && (GlassesToServe * Recipe.ConsumptionPerGlass) < NumberOfApples)
+        //{
+        //    //Recipe.ConsumptionPerGlass
+        //}
+
+        //if (Recipe.AllowedFruit == typeof(Apple) && (GlassesToServe * Recipe.ConsumptionPerGlass) < NumberOfApples)
+        //{
+        //    //Recipe.ConsumptionPerGlass
+        //}
+
+        //if(Recipe.AllowedFruit == typeof(Orange))
+
+        //if(Recipe.AllowedFruit == typeof(Melon))
+
+        //if (Recipe.)
+        //{
+            
+        //}
+        
+    }
+
+   
+
+
+    protected override void OnInitialized()
+    {
+        Recipes = _juiceMenu.Menu;
+        base.OnInitialized();
+    }
+
+
+}
