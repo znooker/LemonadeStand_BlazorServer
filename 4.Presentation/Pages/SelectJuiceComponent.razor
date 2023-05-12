@@ -51,9 +51,7 @@
     [Inject] public IFruit Apple { get; set; }
     [Inject] public IFruit Orange { get; set; }
     [Inject] public IFruit Melon { get; set; }
-    public int NumberOfMelons { get; set; }
-    public int NumberOfOranges { get; set; }
-
+    
     public List<IRecipe> Recipes { get; set; }
 
     
@@ -62,10 +60,10 @@
     {
         var Recipe = Recipes.FirstOrDefault(r => r.Name == SelectedRecipeName);
 
-        //if (Recipe.AllowedFruit == typeof(Apple) &&  (GlassesToServe * Recipe.ConsumptionPerGlass) < NumberOfApples)
-        //{
-        //    //Recipe.ConsumptionPerGlass
-        //}
+        if (Recipe.AllowedFruit == typeof(Apple) &&  (GlassesToServe * Recipe.ConsumptionPerGlass) < Apple.TotalStore)
+        {
+            //Recipe.ConsumptionPerGlass
+        }
 
         //if (Recipe.AllowedFruit == typeof(Apple) && (GlassesToServe * Recipe.ConsumptionPerGlass) < NumberOfApples)
         //{
