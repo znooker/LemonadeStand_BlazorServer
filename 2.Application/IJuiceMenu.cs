@@ -10,7 +10,7 @@ namespace _2.Application
 {
     public interface IJuiceMenu
     {
-       List<IRecipe> Menu { get; }
+       List<IRecipe> Recipies { get; }
 
     
     }

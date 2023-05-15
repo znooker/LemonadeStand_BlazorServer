@@ -10,7 +10,7 @@ namespace _1.Domain.Fruits
     {
 
         public string Name { get; }
-        public int TotalStore { get; set; }
+        public int Amount { get; set; }
 
     }
 }

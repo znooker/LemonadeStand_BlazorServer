@@ -9,9 +9,9 @@ namespace _1.Domain.Recipies
     public interface IRecipe
     {
         string Name { get; set; }
-        Type AllowedFruit { get; }
-        decimal ConsumptionPerGlass { get; }
-        int PricePerGlass { get; }
+        Type AllowedFruit { get; set; }
+        decimal ConsumptionPerGlass { get; set; }
+        int PricePerGlass { get; set; }
 
     }
 }

@@ -27,15 +27,15 @@
 </div>
 <div>
     <label for="applesAdded">Apples Added</label>
-    <InputNumber @bind-Value="Apple.TotalStore" class="form-control">  </InputNumber>
+    <InputNumber @bind-Value="Apple.Amount" class="form-control">  </InputNumber>
 </div>
 <div>
     <label for="melonsAdded">Melons Added</label>
-    <InputNumber @bind-Value="Orange.TotalStore" class="form-control">  </InputNumber>
+    <InputNumber @bind-Value="Orange.Amount" class="form-control">  </InputNumber>
 </div>
 <div>
     <label for="orangesAdded">Oranges Added</label>
-    <InputNumber @bind-Value="Melon.TotalStore" class="form-control">  </InputNumber>
+    <InputNumber @bind-Value="Melon.Amount" class="form-control">  </InputNumber>
 </div>
 <div>
     <button class="btn btn-primary" @onclick="ProcessOrder">Go ahead... Make my juice....</button>
@@ -64,7 +64,7 @@
 
         var Recipe = Recipes.FirstOrDefault(r => r.Name == SelectedRecipeName);
 
-        if (Recipe.AllowedFruit == typeof(Apple) &&  (GlassesToServe * Recipe.ConsumptionPerGlass) < Apple.TotalStore)
+        if (Recipe.AllowedFruit == typeof(Apple) &&  (GlassesToServe * Recipe.ConsumptionPerGlass) < Apple.Amount)
         {
             //Recipe.ConsumptionPerGlass
         }
@@ -95,7 +95,7 @@
 
     protected override void OnInitialized()
     {
-        Recipes = _juiceMenu.Menu;
+        Recipes = _juiceMenu.Recipies;
         base.OnInitialized();
     }
 

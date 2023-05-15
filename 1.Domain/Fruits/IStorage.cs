@@ -8,6 +8,6 @@ namespace _1.Domain.Fruits
 {
     public interface IStorage
     {
-        int TotalStore { get; set; }
+        int Amount { get; set; }
     }
 }

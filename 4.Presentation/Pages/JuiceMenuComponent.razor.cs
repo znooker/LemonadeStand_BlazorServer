@@ -8,12 +8,12 @@ namespace _4.Presentation.Pages
     public partial class JuiceMenuComponent
     {
            
-        List<IRecipe> CurrentMenu = new List<IRecipe>();
+        List<IRecipe> CurrentRecipies = new List<IRecipe>();
 
         protected override void OnInitialized()
         {
             JuiceMenu menu = new JuiceMenu();
-            CurrentMenu = menu.Menu;
+            CurrentRecipies = menu.Recipies;
             base.OnInitialized();
         }
     }

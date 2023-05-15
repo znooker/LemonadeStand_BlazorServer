@@ -7,18 +7,18 @@ using System.Security.Cryptography;
 
 // See https://aka.ms/new-console-template for more information
 
-List<IRecipe> juiceMenu = new()
-{
-new AppleJuice(),
-new MelonJuice(),
-new OrangeJuice()
-};
+//List<IRecipe> juiceMenu = new()
+//{
+//new AppleJuice(),
+//new MelonJuice(),
+//new OrangeJuice()
+//};
 
 Console.WriteLine("Our Juice Menu:");
-foreach (var juice in juiceMenu)
-{
-    Console.WriteLine($"{juice.Name} \t- Price/Glass: {juice.PricePerGlass} \t - Contains:{juice.ConsumptionPerGlass} {juice.AllowedFruit.Name}");
-}
+//foreach (var juice in juiceMenu)
+//{
+//    Console.WriteLine($"{juice.Name} \t- Price/Glass: {juice.PricePerGlass} \t - Contains:{juice.ConsumptionPerGlass} {juice.AllowedFruit.Name}");
+//}
 
 //Console.WriteLine(  );
 //int moneyPaid = 30;
@@ -42,7 +42,7 @@ FruitPressService press = new();
 
 Collection<IFruit> fruits = new Collection<IFruit>() { new Apple(), new Apple()};
 
-press.Produce(juiceMenu[0], fruits, 50, 5);
+//press.Produce(juiceMenu[0], fruits, 50, 5);
 
 Console.WriteLine(press.Result.ErrorMessage);
 
