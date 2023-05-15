@@ -7,14 +7,13 @@ namespace _4.Presentation.Pages
 {
     public partial class JuiceMenuComponent
     {
-        [Inject]
-        public IJuiceMenu _juiceMenu { get; set; }
-    
+           
         List<IRecipe> CurrentMenu = new List<IRecipe>();
 
         protected override void OnInitialized()
         {
-            CurrentMenu = _juiceMenu.Menu;
+            JuiceMenu menu = new JuiceMenu();
+            CurrentMenu = menu.Menu;
             base.OnInitialized();
         }
     }

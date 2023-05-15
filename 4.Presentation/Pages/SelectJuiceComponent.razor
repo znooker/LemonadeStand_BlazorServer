@@ -2,6 +2,7 @@
 @using _1.Domain.Fruits;
 @using _1.Domain.Recipies;
 @using _2.Application
+@using _2.Application.Models;
 @inject IFruitPressService Servicetest
 
 
@@ -51,13 +52,16 @@
     [Inject] public IFruit Apple { get; set; }
     [Inject] public IFruit Orange { get; set; }
     [Inject] public IFruit Melon { get; set; }
-    
+    public OrderModel Order { get; set; } = new OrderModel();
+
     public List<IRecipe> Recipes { get; set; }
 
     
 
     public void ProcessOrder()
     {
+        
+
         var Recipe = Recipes.FirstOrDefault(r => r.Name == SelectedRecipeName);
 
         if (Recipe.AllowedFruit == typeof(Apple) &&  (GlassesToServe * Recipe.ConsumptionPerGlass) < Apple.TotalStore)
