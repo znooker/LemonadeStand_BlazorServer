@@ -5,6 +5,7 @@
 @using _2.Application;
 @using _2.Application.Models;
 @inject IFruitPressService FruitePress
+@inject NavigationManager uriHelper;
 
 
 <h3>JuiceBar Menu - EditForm</h3>
@@ -12,54 +13,62 @@
 
 
 <EditForm EditContext="editContext" OnSubmit="ProcessOrder">
-    <DataAnnotationsValidator /> <!-- Krävs för valideringen i formuläret ska fungera. -->
-    <ValidationMessage For="()=> Order.InvalidFruitMix"></ValidationMessage>
-    <div class="mb-3">
-        <label for="Recipe" class="form-lable">Select Recipe</label>
-        <InputSelect @bind-Value=Order.SelectedRecipeName class="form-control">
-            <option disabled selected>Select a Recipe</option>
-            @foreach (var recipe in Recipes)
-            {
-                <option value="@recipe.Name">@recipe.Name</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="() => Order.SelectedRecipeName" />
-    </div>
-    <div class="mb-3">
-        <lable for="Quantity" class="form-lable">Order Quantity</lable>
-        <InputNumber placeholder="Enter Amount" @bind-Value=Order.GlassesToServe />
-        <ValidationMessage For="() => Order.GlassesToServe" />
-    </div>
-    <div class="mb-3">
-        <label for="Money" class="form-lable">Money Paid</label>
-        <InputNumber placeholder="Enter Amount" @bind-Value=Order.MoneyPaid></InputNumber>
-        <ValidationMessage For="()=> Order.MoneyPaid" />
+    <DataAnnotationsValidator />
+   
+   <div class="container d-flex justify-content-center card shadow w-50">
+        @if (valid)
+        {
+            <AlertResultComponent Result="@Result" />
+        }
+        <ValidationMessage For="()=> Order.InvalidFruitMix"></ValidationMessage>
+            <div class="mb-3">
+                <label for="Recipe" class="form-lable">Select Recipe</label>
+                <InputSelect @bind-Value=Order.SelectedRecipeName class="form-control">
+                    <option disabled selected>Select a Recipe</option>
+                    @foreach (var recipe in Recipes)
+                    {
+                        <option value="@recipe.Name">@recipe.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => Order.SelectedRecipeName" />
+            </div>
+            <div class="mb-3">
+                <lable for="Quantity" class="form-lable">Order Quantity</lable>
+                <InputNumber class="form-control" placeholder="Enter Amount" @bind-Value=Order.GlassesToServe />
+                <ValidationMessage For="() => Order.GlassesToServe" />
+            </div>
+            <div class="mb-3">
+                <label for="Money" class="form-lable">Money Paid</label>
+                <InputNumber class="form-control" placeholder="Enter Amount" @bind-Value=Order.MoneyPaid></InputNumber>
+                <ValidationMessage For="()=> Order.MoneyPaid" />
 
-    </div>
-    <div class="mb-3">
-        <label for="Apple" class="form-lable">Apples</label>
-        <InputNumber @bind-Value=Order.Apples></InputNumber>
-        <ValidationMessage For="() => Order.Apples" />
-    </div>
-    <div class="mb-3">
-        <label for="Orange" class="form-lable">Orange</label>
-        <InputNumber @bind-Value=Order.Oranges></InputNumber>
-        <ValidationMessage For="()=> Order.Oranges" />
-    </div>
-    <div class="mb-3">
-        <label for="Melon" class="form-lable">Melon</label>
-        <InputNumber @bind-Value=Order.Melons></InputNumber>
-        <ValidationMessage For="()=> Order.Melons" />
-    </div>
-    <div class="mb-3">
-        <button class="btn btn-primary">Make me a juicy juice!</button>
-    </div>
+            </div>
+            <div class="mb-3">
+                <label for="Apple" class="form-lable">Apples</label>
+                <InputNumber class="form-control" @bind-Value=Order.Apples></InputNumber>
+                <ValidationMessage For="() => Order.Apples" />
+            </div>
+            <div class="mb-3">
+                <label for="Orange" class="form-lable">Orange</label>
+                <InputNumber class="form-control" @bind-Value=Order.Oranges></InputNumber>
+                <ValidationMessage For="()=> Order.Oranges" />
+            </div>
+            <div class="mb-3">
+                <label for="Melon" class="form-lable">Melon</label>
+                <InputNumber class="form-control" @bind-Value=Order.Melons></InputNumber>
+                <ValidationMessage For="()=> Order.Melons" />
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary"> Make me a juicy juice!</button>
+                <button class="btn btn-secondary" @onclick="Reset">Reset Form</button>
+            </div>
 
+       </div>
+        
+       
+   
 </EditForm>
-@if (valid)
-{
-    <div class="alert alert-success mt-3">Enjoy your jummy juice!</div>
-}
+
 
 @code {
 
@@ -86,6 +95,12 @@
         base.OnInitialized();
     }
 
+    public void Reset()
+    {
+        Order = new();
+        uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
+    }
+
     public void ProcessOrder()
     {
         Fruits.Clear();
@@ -101,15 +116,11 @@
         var invalidFruitmix = editContext.Field(nameof(Order.InvalidFruitMix));
 
 
-
-
-
         if (!string.IsNullOrEmpty(Order.SelectedRecipeName))
         {
             foreach (var recipe in Recipes)
             {
-
-                // && (recipe.Name == SelectedRecipe.Name)
+                
                 if ((recipe.PricePerGlass * Order.GlassesToServe) > Order.MoneyPaid && (recipe.Name == SelectedRecipe.Name))
                 {
                     validationMessages.Add(moneyPaid, $"More money is needed to process the order! The order total is {recipe.PricePerGlass * Order.GlassesToServe} dollares!\nYou are lacking {(recipe.PricePerGlass * Order.GlassesToServe) - Order.MoneyPaid} dollares!");
@@ -123,7 +134,7 @@
 
 
             }
-
+            //kolla med (fruits.All(f => f.GetType() == recipe.AllowedFruit) == false), eller liknande?
             //Apples
             var ammounttest = SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe;
             if ((SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe) > Order.Apples && (SelectedRecipe.AllowedFruit.Name.ToLower() == "apple"))
@@ -146,7 +157,7 @@
                 valid = false;
             }
 
-            //Check so fruits match selected recipe
+            //Adds all fruits to a list
             for (int i = 0; i < Order.Apples; i++)
             {
                 Apple apple = new();
@@ -163,6 +174,7 @@
                 Fruits.Add(melon);
             }
 
+            //Check so fruits match selected recipe
             validRecipe = FruitBlender(Fruits, SelectedRecipe);
 
 
@@ -173,11 +185,16 @@
             valid = false;
         }
 
-        //if (valid && validRecipe)
-        //{
-        //    FruitePress.Produce(SelectedRecipe, Fruits, );
-            
-        //}
+        if (valid && validRecipe)
+        {
+            //No nullcheck on (int)Order.MoneyPaid, (int)Order.GlassesToServe they should be set or the validation won't pass
+            Result = FruitePress.Produce(SelectedRecipe, Fruits, (int)Order.MoneyPaid, (int)Order.GlassesToServe);
+
+            //Reset Form
+            Order = new();
+            uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
+
+        }
 
 
     }

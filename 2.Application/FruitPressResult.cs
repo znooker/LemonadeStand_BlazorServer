@@ -24,6 +24,8 @@ namespace _2.Application
         public int MoneyPaid { get; set; }
         public int MoneyBack { get; set; }
         public decimal FruitLeft { get; set; }
+        public Type Fruit { get; set; }
         public string ErrorMessage { get; set; }
+      
     }
 }

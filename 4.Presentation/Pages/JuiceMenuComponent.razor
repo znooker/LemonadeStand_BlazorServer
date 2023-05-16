@@ -1,17 +1,18 @@
 ﻿
     <div class="row row-cols-3 g-2">
     
-        @foreach (var juice in CurrentRecipies)
+        @foreach (var recipe in CurrentRecipies)
         {
                 <div class="col">
                 <div class="card m-3 shadow-sm">
+                <img class="card-img-top juice-card" src="/img/juice_images/@recipe.ImagePath" alt="@recipe.Name">
                     <div class="card-header">
-                        @juice.Name
+                    @recipe.Name
                     </div>
                     <div class="card-body">
-                        <p>Price per glass: @juice.PricePerGlass</p>
+                    <p>Price per glass: @recipe.PricePerGlass</p>
                         <hr>
-                        <p>Fruits needed per glass: @juice.ConsumptionPerGlass</p>
+                    <p>Fruits needed per glass: @recipe.ConsumptionPerGlass</p>
                     </div>
                 </div>
             </div>

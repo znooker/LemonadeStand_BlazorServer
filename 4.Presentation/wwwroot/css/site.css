@@ -66,3 +66,12 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.juice-card {
+    height: 350px;
+    position: inherit;
+    width: 100%;
+    object-fit: none;
+    object-position: 50%;
+    transform: scale(1);
+}   
