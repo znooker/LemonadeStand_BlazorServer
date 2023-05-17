@@ -1,9 +1,12 @@
 using _1.Domain.Fruits;
-using _1.Domain.Recipies;
 using _2.Application;
+using _2.Application.Models;
+using _2.Application.Validators;
 using _4.Presentation.Pages;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using FluentValidation;
+using _4.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,9 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<IFruitPressService, FruitPressService>();
 builder.Services.AddTransient<IFruit, Fruit>();
 builder.Services.AddSingleton<IJuiceMenu, JuiceMenu>();
+builder.Services.AddScoped<IValidator, OrderValidator>();
+builder.Services.AddSingleton<DITest>();
+
 
 var app = builder.Build();
 

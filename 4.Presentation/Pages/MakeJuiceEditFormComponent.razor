@@ -1,14 +1,17 @@
 ﻿@page "/EditForm"
 @using System.Collections.ObjectModel;
+
 @using _1.Domain.Fruits;
 @using _1.Domain.Recipies;
 @using _2.Application;
 @using _2.Application.Models;
-@inject IFruitPressService FruitePress
+@inject IFruitPressService FruitePress;
 @inject NavigationManager uriHelper;
+@inject DITest test
 
 
 <h3>JuiceBar Menu - EditForm</h3>
+<h1>@testnr</h1>
 <JuiceMenuComponent />
 
 
@@ -81,11 +84,13 @@
     public List<IRecipe> Recipes { get; set; }
     bool valid;
     bool validRecipe;
+    public int testnr { get; set; }
+
 
 
     protected override void OnInitialized()
     {
-
+        testnr = test.Number;
         JuiceMenu menu = new();
         Recipes = menu.Recipies;
 

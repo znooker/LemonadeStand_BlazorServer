@@ -44,7 +44,7 @@ Collection<IFruit> fruits = new Collection<IFruit>() { new Apple(), new Apple()}
 
 //press.Produce(juiceMenu[0], fruits, 50, 5);
 
-Console.WriteLine(press.Result.ErrorMessage);
+//Console.WriteLine(press.Result.ErrorMessage);
 
 Console.ReadLine();
 
