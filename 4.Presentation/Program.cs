@@ -17,8 +17,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<IFruitPressService, FruitPressService>();
 builder.Services.AddTransient<IFruit, Fruit>();
 builder.Services.AddSingleton<IJuiceMenu, JuiceMenu>();
-builder.Services.AddScoped<IValidator, OrderValidator>();
-builder.Services.AddSingleton<DITest>();
+builder.Services.AddScoped<IValidator<OrderModel>, OrderValidator>();
 
 
 var app = builder.Build();

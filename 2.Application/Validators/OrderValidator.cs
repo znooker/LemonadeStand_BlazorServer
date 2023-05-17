@@ -14,7 +14,22 @@ namespace _2.Application.Validators
     {
         public OrderValidator()
         {
-            RuleFor(o => o.SelectedRecipeName).NotEmpty();
+            RuleFor(o => o.SelectedRecipeName).
+                Cascade(CascadeMode.StopOnFirstFailure).
+                NotEmpty().WithMessage("A  jummy juice must be selected!");
+
+            RuleFor(o => o.GlassesToServe).
+                Cascade(CascadeMode.StopOnFirstFailure).
+                NotEmpty().WithMessage("Specify how many glasses you want.").
+                GreaterThan(0).WithMessage("More than zero...!");
+
+            RuleFor(o => o.MoneyPaid).
+                Cascade(CascadeMode.StopOnFirstFailure).
+                NotEmpty().WithMessage("Please pay... I need to feed my family...").
+                GreaterThan(0).WithMessage("Val Add cash now... or else!!");
+
+
+
         }
     }
 }

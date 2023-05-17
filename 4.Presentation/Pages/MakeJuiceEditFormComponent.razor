@@ -7,18 +7,20 @@
 @using _2.Application.Models;
 @inject IFruitPressService FruitePress;
 @inject NavigationManager uriHelper;
-@inject DITest test
+
+
 
 
 <h3>JuiceBar Menu - EditForm</h3>
-<h1>@testnr</h1>
+
 <JuiceMenuComponent />
 
 
 <EditForm EditContext="editContext" OnSubmit="ProcessOrder">
-    <DataAnnotationsValidator />
+    <FluentValidationValidator />
    
    <div class="container d-flex justify-content-center card shadow w-50">
+        <ValidationSummary  />
         @if (valid)
         {
             <AlertResultComponent Result="@Result" />
@@ -84,13 +86,13 @@
     public List<IRecipe> Recipes { get; set; }
     bool valid;
     bool validRecipe;
-    public int testnr { get; set; }
+    
 
 
 
     protected override void OnInitialized()
     {
-        testnr = test.Number;
+        
         JuiceMenu menu = new();
         Recipes = menu.Recipies;
 
@@ -136,7 +138,6 @@
                 {
 
                 }
-
 
             }
             //kolla med (fruits.All(f => f.GetType() == recipe.AllowedFruit) == false), eller liknande?
@@ -192,6 +193,15 @@
 
         if (valid && validRecipe)
         {
+            //try
+            //{
+
+            //}
+            //catch (Exception)
+            //{
+                
+            //    throw;
+            //}
             //No nullcheck on (int)Order.MoneyPaid, (int)Order.GlassesToServe they should be set or the validation won't pass
             Result = FruitePress.Produce(SelectedRecipe, Fruits, (int)Order.MoneyPaid, (int)Order.GlassesToServe);
 

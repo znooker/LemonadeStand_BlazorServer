@@ -11,6 +11,10 @@ namespace _2.Application.Models
 {
     public class OrderModel
     {
+
+        //Rethink the model!
+
+        //Change to interface IRecipe
         [Required(ErrorMessage = "A jummy juice must be selected!")]
         public string SelectedRecipeName { get; set; }
 
@@ -24,6 +28,8 @@ namespace _2.Application.Models
         
         public string InvalidFruitMix { get; set; }
 
+
+        //Type fruit??
         [Required]
         [RegularExpression(@"^\s*[0-9]+([\,\.][0-9][0-9]{0,2})?$|^$|^\s*$", ErrorMessage = "You must add atleast one Apple")]
         public decimal Apples { get; set; }
