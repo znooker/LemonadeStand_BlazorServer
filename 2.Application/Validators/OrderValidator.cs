@@ -16,7 +16,7 @@ namespace _2.Application.Validators
         {
             RuleFor(o => o.SelectedRecipeName).
                 Cascade(CascadeMode.StopOnFirstFailure).
-                NotEmpty().WithMessage("A  jummy juice must be selected!");
+                NotEmpty().WithMessage("A jummy juice must be selected!");
 
             RuleFor(o => o.GlassesToServe).
                 Cascade(CascadeMode.StopOnFirstFailure).
@@ -26,7 +26,7 @@ namespace _2.Application.Validators
             RuleFor(o => o.MoneyPaid).
                 Cascade(CascadeMode.StopOnFirstFailure).
                 NotEmpty().WithMessage("Please pay... I need to feed my family...").
-                GreaterThan(0).WithMessage("Val Add cash now... or else!!");
+                GreaterThan(0).WithMessage("Add cash now... or else!!");
 
 
 

@@ -1,12 +1,19 @@
 ﻿@using _2.Application;
+@inject NavigationManager uriHelper;
 
 <div class="alert alert-success mt-3 justify-content-center">
     <h3>Enjoy your jummy @Result.Recipe.Name!</h3>
     <p>Putting back @Result.FruitLeft @Result.Fruit.Name (s)</p>
     <p>Here is your change: @Result.MoneyBack.ToString("C")</p>
+    <button class="btn btn-outline-success" @onclick="ResetForm">New Order</button>
 </div>
 
 @code {
     [Parameter]
     public FruitPressResult Result { get; set; }
+
+    private void ResetForm()
+    {
+        uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
+    }
 }
