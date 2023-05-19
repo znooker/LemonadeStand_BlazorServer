@@ -13,18 +13,14 @@ namespace _2.Application.Models
     {
 
         //Rethink the model!
+        //Verkar behöva göras en Custom TypeConverter, behöver få en genomgång för att förstå hur den ska implementeras.
+        //public IRecipe SelectedRecipe { get; set; }
 
-        //Change to interface IRecipe
-        [Required(ErrorMessage = "A jummy juice must be selected!")]
         public string SelectedRecipeName { get; set; }
-
-        [Required(ErrorMessage = "Please speciy how many glasses to serve!")]
-        [RegularExpression(@"^0*?[1-9]\d*$", ErrorMessage = "Please enter a number greater than 0!")]
+        
         public int? GlassesToServe { get; set; }
-        [Required(ErrorMessage = "Add cash now... or else!!")]
-        [RegularExpression(@"^0*?[1-9]\d*$", ErrorMessage = "Please enter a number greater than 0!")]
+     
         public int? MoneyPaid { get; set; }
-
         
         public string InvalidFruitMix { get; set; }
 
@@ -39,5 +35,10 @@ namespace _2.Application.Models
         [Required]
         [RegularExpression(@"^\s*[0-9]+([\,\.][0-9][0-9]{0,2})?$|^$|^\s*$", ErrorMessage = "You must add atleast one Melon")]
         public decimal Melons { get; set; }
+
+
+
     }
+
+    
 }
