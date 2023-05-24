@@ -5,6 +5,7 @@
 @using _1.Domain.Recipies;
 @using _2.Application;
 @using _2.Application.Models;
+@using _2.Application.Extentions;
 @inject IFruitPressService FruitePress;
 @inject NavigationManager uriHelper;
 
@@ -14,60 +15,68 @@
 <h3>JuiceBar Menu - EditForm</h3>
 
 <JuiceMenuComponent />
-@if (valid)
+@if (Result.IsSuccess)
 {
     <AlertResultComponent Result="@Result" />
 }
 @if (!valid)
 {
-    <EditForm EditContext="editContext" OnSubmit="ProcessOrder">
+    <EditForm Model="@Order" OnValidSubmit="@SumbitValidForm">
         <FluentValidationValidator />
-
+       
         <div class="container d-flex justify-content-center card shadow w-50">
-            <ValidationSummary />
-
-            <ValidationMessage For="()=> Order.InvalidFruitMix"></ValidationMessage>
+            
+            <ValidationMessage For="() => Order.ValidFruitsInRecipe" />
             <div class="mb-3">
                 <label for="Recipe" class="form-lable">Select Recipe</label>
-                <InputSelect @bind-Value=Order.SelectedRecipeName class="form-control">
+                <select class="form-control" @onchange="OnSelectRecipeChange">
                     <option disabled selected>Select a Recipe</option>
                     @foreach (var recipe in Recipes)
                     {
                         <option value="@recipe.Name">@recipe.Name</option>
                     }
-                </InputSelect>
-                <ValidationMessage For="() => Order.SelectedRecipeName" />
+                </select>
+                <ValidationMessage For="() => Order.SelectedRecipe" />
             </div>
-            <div class="mb-3">
-                <lable for="Quantity" class="form-lable">Order Quantity</lable>
-                <InputNumber class="form-control" placeholder="Enter Amount" @bind-Value=Order.GlassesToServe />
-                <ValidationMessage For="() => Order.GlassesToServe" />
-            </div>
-            <div class="mb-3">
-                <label for="Money" class="form-lable">Money Paid</label>
-                <InputNumber class="form-control" placeholder="Enter Amount" @bind-Value=Order.MoneyPaid></InputNumber>
-                <ValidationMessage For="()=> Order.MoneyPaid" />
+            @if (Order.SelectedRecipe is not null)
+            {
+                
+                <div class="mb-3">
+                    <lable for="Quantity" class="form-lable">Order Quantity</lable>
+                    <InputNumber class="form-control" placeholder="Enter Amount" @bind-Value=Order.GlassesToServe />
+                    <ValidationMessage For="() => Order.GlassesToServe" />
+                </div>
+                <div class="mb-3">
+                    <label for="Money" class="form-lable">Money Paid</label>
+                    <InputNumber class="form-control" placeholder="Enter Amount" @bind-Value=Order.MoneyPaid></InputNumber>
+                    <ValidationMessage For="()=> Order.MoneyPaid" />
 
-            </div>
-            <div class="mb-3">
-                <label for="Apple" class="form-lable">Apples</label>
-                <InputNumber class="form-control" @bind-Value=Order.Apples></InputNumber>
-                <ValidationMessage For="() => Order.Apples" />
-            </div>
-            <div class="mb-3">
-                <label for="Orange" class="form-lable">Orange</label>
-                <InputNumber class="form-control" @bind-Value=Order.Oranges></InputNumber>
-                <ValidationMessage For="()=> Order.Oranges" />
-            </div>
-            <div class="mb-3">
-                <label for="Melon" class="form-lable">Melon</label>
-                <InputNumber class="form-control" @bind-Value=Order.Melons></InputNumber>
-                <ValidationMessage For="()=> Order.Melons" />
-            </div>
-            <div class="mb-3">
-                <button class="btn btn-primary"> Make me a juicy juice!</button>
-                <button class="btn btn-secondary" @onclick="Reset">Reset Form</button>
-            </div>
+                </div>
+                <ValidationMessage For="() => Order.Fruits" />
+                <div class="mb-3">
+                    <label for="Apple" class="form-lable">Apples</label>
+                    <input type="number" min="0" class="form-control" placeholder="Add Apples" @onchange="OnAppleAmountChange"></input>
+                 
+                </div>
+
+                <div class="mb-3">
+                    <label for="Apple" class="form-lable">Oranges</label>
+                    <input type="number" min="0" class="form-control" placeholder="Add Oranges" @onchange="OnOrangeAmountChange"></input>
+                    
+                </div>
+
+                <div class="mb-3">
+                    <label for="Apple" class="form-lable">Melons</label>
+                    <input type="number" min="0" class="form-control" placeholder="Add Melons" @onchange="OnMelonAmountChange"></input>
+                  
+                </div>
+
+                <div class="mb-3">
+                    <button class="btn btn-primary"> Make me a juicy juice!</button>
+                    <button class="btn btn-secondary" @onclick="Reset">Reset Form</button>
+                </div>
+            }
+           
 
         </div>
 
@@ -78,11 +87,11 @@
 
 @code {
 
-    private EditContext editContext;
-    private ValidationMessageStore validationMessages;
+    //private EditContext editContext;
+    //private ValidationMessageStore validationMessages;
     public List<IRecipe> Recipes { get; set; }
-    public OrderModel Order { get; set; } = new();
-    private Collection<IFruit> Fruits { get; set; } = new();
+    public OrderModel Order { get; set; }
+    private Collection<IFruit> Fruits { get; set; }
     private FruitPressResult Result { get; set; } = new();
 
 
@@ -92,14 +101,15 @@
 
     protected override void OnInitialized()
     {
-
+        OrderModel order = new();
+        Order = order;
         JuiceMenu menu = new();
         Recipes = menu.Recipies;
-       
-        editContext = new(Order);
-        validationMessages = new(editContext);
+        Collection<IFruit> fruits = new();
+        Fruits = fruits;
 
         base.OnInitialized();
+
     }
 
     public void Reset()
@@ -108,92 +118,153 @@
         uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
     }
 
-    public void ProcessOrder()
+
+    private void OnAppleAmountChange(ChangeEventArgs obj)
+    {
+        
+        int input = int.Parse(obj.Value.ToString());
+
+        Order.Fruits = Order.Fruits.UpdateFruits(input, typeof(Apple));
+        Fruits = Order.Fruits.ConvertToCollection();
+    }
+
+    private void OnOrangeAmountChange(ChangeEventArgs obj)
     {
 
-        Fruits.Clear();
-        validationMessages.Clear();
-        valid = editContext.Validate();
+        int input = int.Parse(obj.Value.ToString());
 
-        var SelectedRecipe = Recipes.FirstOrDefault(r => r.Name == Order.SelectedRecipeName);
-        var moneyPaid = editContext.Field(nameof(Order.MoneyPaid));
-        var recipeName = editContext.Field(nameof(Order.SelectedRecipeName));
-        var appleAmount = editContext.Field(nameof(Order.Apples));
-        var orangeAmount = editContext.Field(nameof(Order.Oranges));
-        var melonAmount = editContext.Field(nameof(Order.Melons));
-        var invalidFruitmix = editContext.Field(nameof(Order.InvalidFruitMix));
+        Order.Fruits = Order.Fruits.UpdateFruits(input, typeof(Orange));
+        Fruits = Order.Fruits.ConvertToCollection();
+    }
 
+    private void OnMelonAmountChange(ChangeEventArgs obj)
+    {
 
-        if (!string.IsNullOrEmpty(Order.SelectedRecipeName))
-        {
-            foreach (var recipe in Recipes)
-            {
+        int input = int.Parse(obj.Value.ToString());
 
-                if ((recipe.PricePerGlass * Order.GlassesToServe) > Order.MoneyPaid && (recipe.Name == SelectedRecipe.Name))
-                {
-                    validationMessages.Add(moneyPaid, $"More money is needed to process the order! The order total is {recipe.PricePerGlass * Order.GlassesToServe} dollares!\nYou are lacking {(recipe.PricePerGlass * Order.GlassesToServe) - Order.MoneyPaid} dollares!");
-                    valid = false;
-                }
-
-                if (SelectedRecipe.AllowedFruit != recipe.AllowedFruit)
-                {
-
-                }
-
-            }
-            //kolla med (fruits.All(f => f.GetType() == recipe.AllowedFruit) == false), eller liknande?
-            //Apples
-            var ammounttest = SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe;
-            if ((SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe) > Order.Apples && (SelectedRecipe.AllowedFruit.Name.ToLower() == "apple"))
-            {
-                validationMessages.Add(appleAmount, $"Need more {SelectedRecipe.AllowedFruit.Name}(s) The total needed {SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe} {SelectedRecipe.AllowedFruit.Name}(s)!");
-                valid = false;
-            }
-
-            //Orange
-            if ((SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe) > Order.Oranges && (SelectedRecipe.AllowedFruit.Name.ToLower() == "orange"))
-            {
-                validationMessages.Add(orangeAmount, $"Need more {SelectedRecipe.AllowedFruit.Name}(s) The total needed {SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe} {SelectedRecipe.AllowedFruit.Name}(s)!");
-                valid = false;
-            }
-
-            //Melon
-            if ((SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe) > Order.Melons && (SelectedRecipe.AllowedFruit.Name.ToLower() == "melon"))
-            {
-                validationMessages.Add(melonAmount, $"Need more {SelectedRecipe.AllowedFruit.Name}(s) The total needed {SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe} {SelectedRecipe.AllowedFruit.Name}(s)!");
-                valid = false;
-            }
-
-            //Adds all fruits to a list
-            for (int i = 0; i < Order.Apples; i++)
-            {
-                Apple apple = new();
-                Fruits.Add(apple);
-            }
-            for (int i = 0; i < Order.Oranges; i++)
-            {
-                Orange orange = new();
-                Fruits.Add(orange);
-            }
-            for (int i = 0; i < Order.Melons; i++)
-            {
-                Melon melon = new();
-                Fruits.Add(melon);
-            }
-
-            //Check so fruits match selected recipe
-            validRecipe = FruitBlender(Fruits, SelectedRecipe);
+        Order.Fruits = Order.Fruits.UpdateFruits(input, typeof(Melon));
+        Fruits = Order.Fruits.ConvertToCollection();
+    }
 
 
-        }
-        if (!validRecipe)
-        {
-            validationMessages.Add(invalidFruitmix, "Invalid fruitmix, does not match recipe");
-            valid = false;
-        }
+    private void OnSelectRecipeChange(ChangeEventArgs obj)
+    {
+        Order.SelectedRecipe = Recipes.FirstOrDefault(r => r.Name.ToLower() == obj.Value.ToString().ToLower());
 
-        if (valid && validRecipe)
-        {
+    }
+
+    public void SumbitValidForm()
+     {
+   
+
+
+        //if (valid && validRecipe)
+        //{
+        //try
+        //{
+
+        //}
+        //catch (Exception)
+        //{
+
+        //    throw;
+        //}
+        //No nullcheck on (int)Order.MoneyPaid, (int)Order.GlassesToServe they should be set or the validation won't pass
+
+       
+        valid = true;
+        Result = FruitePress.Produce(Order.SelectedRecipe, Fruits, (int)Order.MoneyPaid, (int)Order.GlassesToServe);
+
+        //Reset Form
+        Order = new();
+
+
+        //}
+
+
+        
+        //validationMessages.Clear();
+        //valid = Order.Validate(OrderModel);
+
+        //var SelectedRecipe = Recipes.FirstOrDefault(r => r.Name == Order.SelectedRecipeName);
+        //var moneyPaid = Order.Field(nameof(Order.MoneyPaid));
+        //var recipeName = editContext.Field(nameof(Order.SelectedRecipeName));
+        //var appleAmount = editContext.Field(nameof(Order.Apples));
+        //var orangeAmount = editContext.Field(nameof(Order.Oranges));
+        //var melonAmount = editContext.Field(nameof(Order.Melons));
+        //var invalidFruitmix = editContext.Field(nameof(Order.InvalidFruitMix));
+
+
+        //if (!string.IsNullOrEmpty(Order.SelectedRecipeName))
+        //{
+        //    foreach (var recipe in Recipes)
+        //    {
+
+        //        if ((recipe.PricePerGlass * Order.GlassesToServe) > Order.MoneyPaid && (recipe.Name == SelectedRecipe.Name))
+        //        {
+        //            validationMessages.Add(moneyPaid, $"More money is needed to process the order! The order total is {recipe.PricePerGlass * Order.GlassesToServe} dollares!\nYou are lacking {(recipe.PricePerGlass * Order.GlassesToServe) - Order.MoneyPaid} dollares!");
+        //            valid = false;
+        //        }
+
+        //        if (SelectedRecipe.AllowedFruit != recipe.AllowedFruit)
+        //        {
+
+        //        }
+
+        //    }
+        //    //kolla med (fruits.All(f => f.GetType() == recipe.AllowedFruit) == false), eller liknande?
+        //    //Apples
+        //    var ammounttest = SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe;
+        //    if ((SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe) > Order.Apples && (SelectedRecipe.AllowedFruit.Name.ToLower() == "apple"))
+        //    {
+        //        validationMessages.Add(appleAmount, $"Need more {SelectedRecipe.AllowedFruit.Name}(s) The total needed {SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe} {SelectedRecipe.AllowedFruit.Name}(s)!");
+        //        valid = false;
+        //    }
+
+        //    //Orange
+        //    if ((SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe) > Order.Oranges && (SelectedRecipe.AllowedFruit.Name.ToLower() == "orange"))
+        //    {
+        //        validationMessages.Add(orangeAmount, $"Need more {SelectedRecipe.AllowedFruit.Name}(s) The total needed {SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe} {SelectedRecipe.AllowedFruit.Name}(s)!");
+        //        valid = false;
+        //    }
+
+        //    //Melon
+        //    if ((SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe) > Order.Melons && (SelectedRecipe.AllowedFruit.Name.ToLower() == "melon"))
+        //    {
+        //        validationMessages.Add(melonAmount, $"Need more {SelectedRecipe.AllowedFruit.Name}(s) The total needed {SelectedRecipe.ConsumptionPerGlass * Order.GlassesToServe} {SelectedRecipe.AllowedFruit.Name}(s)!");
+        //        valid = false;
+        //    }
+
+        //    //Adds all fruits to a list
+        //    for (int i = 0; i < Order.Apples; i++)
+        //    {
+        //        Apple apple = new();
+        //        Fruits.Add(apple);
+        //    }
+        //    for (int i = 0; i < Order.Oranges; i++)
+        //    {
+        //        Orange orange = new();
+        //        Fruits.Add(orange);
+        //    }
+        //    for (int i = 0; i < Order.Melons; i++)
+        //    {
+        //        Melon melon = new();
+        //        Fruits.Add(melon);
+        //    }
+
+        //    //Check so fruits match selected recipe
+        //    validRecipe = FruitBlender(Fruits, SelectedRecipe);
+
+
+        //}
+        //if (!validRecipe)
+        //{
+        //    validationMessages.Add(invalidFruitmix, "Invalid fruitmix, does not match recipe");
+        //    valid = false;
+        //}
+
+        //if (valid && validRecipe)
+        //{
             //try
             //{
 
@@ -204,13 +275,13 @@
             //    throw;
             //}
             //No nullcheck on (int)Order.MoneyPaid, (int)Order.GlassesToServe they should be set or the validation won't pass
-            Result = FruitePress.Produce(SelectedRecipe, Fruits, (int)Order.MoneyPaid, (int)Order.GlassesToServe);
+            //Result = FruitePress.Produce(SelectedRecipe, Fruits, (int)Order.MoneyPaid, (int)Order.GlassesToServe);
 
             //Reset Form
-            Order = new();
+            //Order = new();
 
 
-        }
+        //}
 
 
     }

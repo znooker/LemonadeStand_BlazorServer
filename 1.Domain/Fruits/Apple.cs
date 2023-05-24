@@ -8,7 +8,7 @@ namespace _1.Domain.Fruits
 {
     public class Apple : IFruit
     {
-        public string Name { get; } = "Apple";
+        public string Name { get;} = "Apple";
         public int Amount { get; set; }
     }
 }
