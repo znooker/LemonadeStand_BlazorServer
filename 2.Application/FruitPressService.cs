@@ -30,6 +30,8 @@ namespace _2.Application
             result.Fruit = recipe.AllowedFruit;
             result.MoneyBack = moneyPaid - (recipe.PricePerGlass * orderedGlassQuantity);
 
+            result.IsSuccess = true;
+
             return result;
         }
 

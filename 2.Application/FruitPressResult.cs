@@ -26,6 +26,7 @@ namespace _2.Application
         public decimal FruitLeft { get; set; }
         public Type Fruit { get; set; }
         public string ErrorMessage { get; set; }
+        public bool IsSuccess { get; set; }
       
     }
 }
