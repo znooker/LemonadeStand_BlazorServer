@@ -87,6 +87,7 @@
 
 @code {
 
+
     public List<IRecipe> Recipes { get; set; }
     public OrderModel Order { get; set; }
     private Collection<IFruit> Fruits { get; set; }
@@ -153,6 +154,7 @@
 
     public void SumbitValidForm()
      {
+
        
         valid = true;
         Result = FruitePress.Produce(Order.SelectedRecipe, Fruits, (int)Order.MoneyPaid, (int)Order.GlassesToServe);
@@ -160,7 +162,7 @@
         //Reset Form
         Order = new();
 
-    }
+
 
 
 }
