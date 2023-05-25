@@ -36,14 +36,6 @@ namespace _2.Application
             return result;
         }
 
-        //private decimal ChopFruits(IRecipe recipe, Collection<IFruit> fruits, int orderedGlassQuantity)
-        //{
-        //    return fruits.Count - (recipe.ConsumptionPerGlass * orderedGlassQuantity);
-        //}
-
-        //private int CalcChange(IRecipe recipe, int moneyPaid, int orderedGlassQuantity)
-        //{
-        //    return moneyPaid - (recipe.PricePerGlass * orderedGlassQuantity);
-        //}
+    
     }
 }
