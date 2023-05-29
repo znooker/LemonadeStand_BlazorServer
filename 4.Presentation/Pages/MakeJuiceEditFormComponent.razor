@@ -87,7 +87,7 @@
 
 @code {
 
-   
+
     public List<IRecipe> Recipes { get; set; }
     public OrderModel Order { get; set; }
     private Collection<IFruit> Fruits { get; set; }
@@ -124,7 +124,7 @@
         int input = int.Parse(obj.Value.ToString());
 
         Order.Fruits = Order.Fruits.UpdateFruits(input, typeof(Apple));
-        Fruits = Order.Fruits.ConvertToCollection();
+        Fruits = Order.Fruits.ConvertListToCollection();
     }
 
     private void OnOrangeAmountChange(ChangeEventArgs obj)
@@ -133,7 +133,7 @@
         int input = int.Parse(obj.Value.ToString());
 
         Order.Fruits = Order.Fruits.UpdateFruits(input, typeof(Orange));
-        Fruits = Order.Fruits.ConvertToCollection();
+        Fruits = Order.Fruits.ConvertListToCollection();
     }
 
     private void OnMelonAmountChange(ChangeEventArgs obj)
@@ -142,7 +142,7 @@
         int input = int.Parse(obj.Value.ToString());
 
         Order.Fruits = Order.Fruits.UpdateFruits(input, typeof(Melon));
-        Fruits = Order.Fruits.ConvertToCollection();
+        Fruits = Order.Fruits.ConvertListToCollection();
     }
 
 
@@ -154,7 +154,6 @@
 
     public void SumbitValidForm()
      {
-   
 
        
         valid = true;
@@ -163,8 +162,6 @@
         //Reset Form
         Order = new();
 
-
-    }
 
 
 

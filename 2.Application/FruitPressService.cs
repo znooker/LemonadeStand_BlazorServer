@@ -1,6 +1,7 @@
 ﻿using _1.Domain.Fruits;
 using _1.Domain.Recipies;
 using _2.Application;
+using _2.Application.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,23 +27,15 @@ namespace _2.Application
             //Still needed after validation??
             result.ErrorMessage = "";
 
-            result.FruitLeft = fruits.Count - (recipe.ConsumptionPerGlass * orderedGlassQuantity);
+            result.FruitLeft = fruits.FruitsLeftAfterProcessing(recipe, orderedGlassQuantity);
             result.Fruit = recipe.AllowedFruit;
-            result.MoneyBack = moneyPaid - (recipe.PricePerGlass * orderedGlassQuantity);
+            result.MoneyBack = moneyPaid.CalculateChange(recipe, orderedGlassQuantity);
 
             result.IsSuccess = true;
 
             return result;
         }
 
-        //private decimal ChopFruits(IRecipe recipe, Collection<IFruit> fruits, int orderedGlassQuantity)
-        //{
-        //    return fruits.Count - (recipe.ConsumptionPerGlass * orderedGlassQuantity);
-        //}
-
-        //private int CalcChange(IRecipe recipe, int moneyPaid, int orderedGlassQuantity)
-        //{
-        //    return moneyPaid - (recipe.PricePerGlass * orderedGlassQuantity);
-        //}
+    
     }
 }
