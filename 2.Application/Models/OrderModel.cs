@@ -11,29 +11,21 @@ namespace _2.Application.Models
     public class OrderModel
     {
 
-        //Rethink the model!
+      
         public IRecipe SelectedRecipe { get; set; }
 
-        public string? SelectedRecipeName { get; set; }
+        //public string? SelectedRecipeName { get; set; } - Not Used anymore
         
         public int? GlassesToServe { get; set; }
      
         public int? MoneyPaid { get; set; }
 
-        //public string InvalidFruitMix { get; set; }
+   
         public  bool ValidFruitsInRecipe { get; set; }
-
-
-        //Type fruit??
 
         public List<IFruit>? Fruits { get; set; } = new();
 
-        //public int Apples { get; set; }
-        
-        //public int Oranges { get; set; }
-    
-        //public int Melons { get; set; }
-
+     
 
 
     }
