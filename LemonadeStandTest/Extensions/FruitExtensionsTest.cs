@@ -1,4 +1,5 @@
 ﻿using _1.Domain.Fruits;
+using _1.Domain.Recipies;
 using _2.Application;
 using _2.Application.Extentions;
 using FluentAssertions;
@@ -55,6 +56,32 @@ namespace LemonadeStandTest.Extensions
             result.Should().BeEquivalentTo(expected);
         }
 
+        [Theory]
+        [InlineData(10, 5, 1, 5)]
+        [InlineData(5, 5, 1, 0)]
+        [InlineData(0, 0, 0, 0)]
+        [InlineData(-1, 2, -2, 3)]
+        public void CalculateChange_MoneyPaid_ShouldReturnChangeLeft(int moneyPaid, int recipeCost, int orderedGlassQuantity, int expected)
+        {
+            IRecipe testRecipe = new Recipe();
+            testRecipe.PricePerGlass = recipeCost;
+
+            var result = moneyPaid.CalculateChange(testRecipe, orderedGlassQuantity);
+
+            result.Should().Be(expected);
+            result.Should().BeGreaterThanOrEqualTo(0);
+        }
+
+        //[Theory]
+        //[InlineData(1, 1, 1, 0)]
+        //public void FruitsLeftAfterProcessing_AmountOfFruit_ShouldReturnFruitsLeft(int )
+        //{
+
+        //}
+
+
+
+        //Till annan xunit test fil, är inte en extension
         [Fact]
         public void Produce_ShouldReturn_FruitPressResult()
         {
