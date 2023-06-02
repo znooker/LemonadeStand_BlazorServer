@@ -21,7 +21,6 @@ namespace _2.Application.Models
         public int? MoneyPaid { get; set; }
 
    
-        public  bool ValidFruitsInRecipe { get; set; }
 
         public List<IFruit>? Fruits { get; set; } = new();
 

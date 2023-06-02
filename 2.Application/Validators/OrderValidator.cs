@@ -23,10 +23,12 @@ namespace _2.Application.Validators
 
             RuleFor(o => o.GlassesToServe).
                 Cascade(CascadeMode.StopOnFirstFailure).
+                NotNull().WithMessage("Specify how many glasses you want.").
                 NotEmpty().WithMessage("Specify how many glasses you want.").
-                GreaterThan(0).WithMessage("More than zero...!");
+                GreaterThan(0).WithMessage("More than zero...!").
+                LessThanOrEqualTo(int.MaxValue).WithMessage("To large order!");
 
-            When(o => o.GlassesToServe > 0, () =>
+            When(o => o.GlassesToServe > 0 && o.SelectedRecipe is not null,() =>
             {
                 RuleFor(o => o.MoneyPaid).
                 Cascade(CascadeMode.StopOnFirstFailure).
@@ -37,9 +39,12 @@ namespace _2.Application.Validators
 
                 RuleFor(o => o.Fruits).
                 Cascade(CascadeMode.StopOnFirstFailure).
+                NotNull().WithMessage("Add a fruit!").
                 NotEmpty().WithMessage(o => $"Must add {o.SelectedRecipe.ConsumptionPerGlass * o.GlassesToServe} {o.SelectedRecipe.AllowedFruit.Name}(s)").
                 Must((o, Fruits) => Fruits.All(List => List.GetType() == o.SelectedRecipe.AllowedFruit)).WithMessage(o => $"{o.SelectedRecipe.Name} only contains {o.SelectedRecipe.AllowedFruit.Name}(s)!").
                 Must((o, Fruits) => Fruits.Count >= (o.SelectedRecipe.ConsumptionPerGlass * o.GlassesToServe)).WithMessage(o => $"Need more fruits, add atleast {o.SelectedRecipe.ConsumptionPerGlass * o.GlassesToServe} {o.SelectedRecipe.AllowedFruit.Name}(s)!");
+                
+
             });
 
 

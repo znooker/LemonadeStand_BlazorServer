@@ -82,6 +82,18 @@ namespace _2.Application.Extentions
             return fruit;
         }
 
+        public static int ParseValueOrReturnZero(this string? value)
+        {
+            int output = 0;
+
+            if (value != "")
+            {
+                output = int.Parse(value);
+            }
+
+            return output;
+        }
+
 
     }
 

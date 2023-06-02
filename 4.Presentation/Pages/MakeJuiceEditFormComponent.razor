@@ -23,10 +23,10 @@
 {
     <EditForm Model="@Order" OnValidSubmit="@SumbitValidForm">
         <FluentValidationValidator />
-       
+
         <div class="container d-flex justify-content-center card shadow w-50">
-            
-            <ValidationMessage For="() => Order.ValidFruitsInRecipe" />
+
+
             <div class="mb-3">
                 <label for="Recipe" class="form-lable">Select Recipe</label>
                 <select class="form-control" @onchange="OnSelectRecipeChange">
@@ -40,7 +40,7 @@
             </div>
             @if (Order.SelectedRecipe is not null)
             {
-                
+
                 <div class="mb-3">
                     <lable for="Quantity" class="form-lable">Order Quantity</lable>
                     <InputNumber class="form-control" placeholder="Enter Amount" @bind-Value=Order.GlassesToServe />
@@ -56,19 +56,19 @@
                 <div class="mb-3">
                     <label for="Apple" class="form-lable">Apples</label>
                     <input type="number" min="0" class="form-control" placeholder="Add Apples" @onchange="OnAppleAmountChange"></input>
-                 
+
                 </div>
 
                 <div class="mb-3">
                     <label for="Apple" class="form-lable">Oranges</label>
                     <input type="number" min="0" class="form-control" placeholder="Add Oranges" @onchange="OnOrangeAmountChange"></input>
-                    
+
                 </div>
 
                 <div class="mb-3">
                     <label for="Apple" class="form-lable">Melons</label>
                     <input type="number" min="0" class="form-control" placeholder="Add Melons" @onchange="OnMelonAmountChange"></input>
-                  
+
                 </div>
 
                 <div class="mb-3">
@@ -76,7 +76,7 @@
                     <button class="btn btn-secondary" @onclick="Reset">Reset Form</button>
                 </div>
             }
-           
+
 
         </div>
 
@@ -120,29 +120,29 @@
 
     private void OnAppleAmountChange(ChangeEventArgs obj)
     {
-        
-        int input = int.Parse(obj.Value.ToString());
+        int input = obj.Value.ToString().ParseValueOrReturnZero();
 
         Order.Fruits = Order.Fruits.UpdateFruits(input, typeof(Apple));
         Fruits = Order.Fruits.ConvertListToCollection();
+
     }
 
     private void OnOrangeAmountChange(ChangeEventArgs obj)
     {
-
-        int input = int.Parse(obj.Value.ToString());
+        int input = obj.Value.ToString().ParseValueOrReturnZero();
 
         Order.Fruits = Order.Fruits.UpdateFruits(input, typeof(Orange));
         Fruits = Order.Fruits.ConvertListToCollection();
+
     }
 
     private void OnMelonAmountChange(ChangeEventArgs obj)
     {
-
-        int input = int.Parse(obj.Value.ToString());
+        int input = obj.Value.ToString().ParseValueOrReturnZero();
 
         Order.Fruits = Order.Fruits.UpdateFruits(input, typeof(Melon));
         Fruits = Order.Fruits.ConvertListToCollection();
+
     }
 
 
@@ -153,9 +153,9 @@
     }
 
     public void SumbitValidForm()
-     {
+    {
 
-       
+
         valid = true;
         Result = FruitePress.Produce(Order.SelectedRecipe, Fruits, (int)Order.MoneyPaid, (int)Order.GlassesToServe);
 
@@ -165,5 +165,5 @@
 
 
 
-}
+    }
 }

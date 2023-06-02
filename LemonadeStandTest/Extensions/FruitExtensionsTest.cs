@@ -72,13 +72,19 @@ namespace LemonadeStandTest.Extensions
             result.Should().BeGreaterThanOrEqualTo(0);
         }
 
-        //[Theory]
-        //[InlineData(1, 1, 1, 0)]
-        //public void FruitsLeftAfterProcessing_AmountOfFruit_ShouldReturnFruitsLeft(int )
-        //{
+        [Theory]
+        [InlineData("1", 1)]
+        [InlineData("-1", -1)]
+        [InlineData("", 0)]
+        [InlineData("9999", 9999)]
+        [InlineData("0", 0)]
+        public void ParseValueOrReturnZero_ShouldReturnInt(string? value, int expected)
+        {
+            var result = value.ParseValueOrReturnZero();
 
-        //}
+            result.Should().Be(expected);
 
+        }
 
 
         //Till annan xunit test fil, är inte en extension
