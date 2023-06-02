@@ -82,7 +82,7 @@ namespace _2.Application.Extentions
             return fruit;
         }
 
-        public static int ParseValueOrReturnZero(this string? value)
+        public static int ParseValueOrReturnZero(this string value)
         {
             int output = 0;
 

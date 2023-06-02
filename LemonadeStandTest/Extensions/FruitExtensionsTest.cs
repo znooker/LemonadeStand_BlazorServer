@@ -78,7 +78,7 @@ namespace LemonadeStandTest.Extensions
         [InlineData("", 0)]
         [InlineData("9999", 9999)]
         [InlineData("0", 0)]
-        public void ParseValueOrReturnZero_ShouldReturnInt(string? value, int expected)
+        public void ParseValueOrReturnZero_ShouldReturnInt(string value, int expected)
         {
             var result = value.ParseValueOrReturnZero();
 
